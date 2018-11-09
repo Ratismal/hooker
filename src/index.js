@@ -18,7 +18,7 @@ async function initialize() {
     router[hook.method ? hook.method.toLowerCase() : 'post'](hook.route, async (ctx, next) => {
       let payload = ctx.request.body;
       console.log('Received a webhook on', ctx.path);
-      if (!hook.validate || (typeof hook.validate === 'function' && await hook.validate(payload))) {
+      if (!hook.validate || (typeof hook.validate === 'function' && await hook.validate(payload, ctx))) {
         if (hook.execute && typeof hook.execute === 'function') {
           hook.execute(payload).catch(console.error);
         }
@@ -31,8 +31,10 @@ async function initialize() {
         ctx.status = 200;
         ctx.body = 'OK';
       } else {
-        ctx.status = 400;
-        ctx.body = 'Failed Validation';
+        if (ctx.status === 404)
+          ctx.status = 400;
+        if (!ctx.body)
+          ctx.body = 'Failed Validation';
       }
     });
   }
