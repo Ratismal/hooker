@@ -1,5 +1,6 @@
 const Koa = require('koa');
 const Router = require('koa-router');
+const bodyParser = require('koa-bodyparser');
 const config = require('./config');
 const { exec } = require('child_process');
 const { promisify } = require('util');
@@ -9,6 +10,8 @@ const app = new Koa();
 const router = new Router({
   prefix: config.prefix || '/hooks'
 });
+
+app.use(bodyParser());
 
 async function initialize() {
   for (const hook of config.hooks || []) {
