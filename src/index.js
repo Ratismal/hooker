@@ -25,7 +25,7 @@ async function initialize() {
         if (hook.command) {
           console.log('Executing command...');
           pExec(hook.command).then(({ stdout, stderr }) => {
-            console.log(result.stdout, result.stderr);
+            console.log(stdout, stderr);
           }).catch(console.error);
         }
         ctx.status = 200;
