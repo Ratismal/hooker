@@ -20,16 +20,13 @@ async function initialize() {
       console.log('Received a webhook on', ctx.path);
       if (!hook.validate || (typeof hook.validate === 'function' && await hook.validate(payload))) {
         if (hook.execute && typeof hook.execute === 'function') {
-          await hook.execute(payload);
+          hook.execute(payload).catch(console.error);
         }
         if (hook.command) {
           console.log('Executing command...');
-          try {
-            let result = await pExec(hook.command);
+          pExec(hook.command).then(({ stdout, stderr }) => {
             console.log(result.stdout, result.stderr);
-          } catch (err) {
-            console.error(err);
-          }
+          }).catch(console.error);
         }
         ctx.status = 200;
         ctx.body = 'OK';
