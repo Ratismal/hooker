@@ -1,0 +1,19 @@
+{
+  "name": "hooker",
+  "version": "1.0.0",
+  "description": "A webhook receiver that executes shell commands",
+  "main": "src/index.js",
+  "repository": "https://github.com/Ratismal/hooker",
+  "author": "stupid cat (cat@blargbot.xyz)",
+  "license": "MIT",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "koa": "^2.6.1",
+    "koa-router": "^7.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.8.0"
+  }
+}
